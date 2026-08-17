@@ -1,0 +1,130 @@
+====================================================
+POSIBLES PREGUNTAS DEL JURADO (con respuestas cortas)
+TIENDA RETAIL — Grupo 5 — Proyecto Final
+====================================================
+
+---------- 1. TÉCNICAS DE DATOS Y MODELOS ----------
+
+P1. ¿Por qué la predicción solo explica el 56%? ¿Es suficiente?
+R: El 56% (R²) mide cuánto de la variación de la demanda explica el modelo.
+El resto es ruido propio de la venta diaria, imposible de predecir con exactitud
+(hay 25 meses de historia con 76,000 registros). El error promedio es ±24
+unidades, que para surtir una tienda es un margen operativo aceptable. La
+predicción no sustituye al gerente: le reduce la incertidumbre para ordenar.
+
+P2. ¿Qué es el MAE (±24) y cómo se lee?
+R: MAE (error absoluto medio) es el promedio de cuántas unidades nos
+equivocamos por producto. En la práctica: si la herramienta dice 158 unidades,
+lo razonable es planear entre 134 y 182. Por eso la orden sugerida le suma un
+10% de margen de seguridad.
+
+P3. ¿Cómo evitaron la trampa de datos (data leakage)?
+R: La variable más informativa era «unidades ya vendidas», pero es trampa:
+conocer la venta para predecir la venta. La quitamos del análisis. Además, las
+pruebas se hicieron con datos que el modelo nunca había visto (examen a libro
+cerrado). La variable «unidades ordenadas» (cuánto pidió la tienda) no es
+trampa: es una decisión de operación, no el resultado que queremos predecir.
+
+P4. ¿Por qué eligieron el modelo que eligieron?
+R: Comparamos tres: la regresión (que mide qué pesa más en la venta) y dos
+clasificadores que anticipan si la demanda será alta o baja. Se eligió el de
+mejor acierto con datos no vistos (casi 85 de cada 100), el más confiable y el
+que responde la pregunta del negocio: cuánto vender y cuándo preocuparse.
+
+P5. ¿Cómo controlaron el sobreajuste (overfitting)?
+R: Probando los modelos con datos que no participaron en el entrenamiento.
+El ganador es un Random Forest, que combina muchos árboles y por diseño reduce
+el sobreajuste. Además validamos sobre el histórico completo del modelo final.
+
+P6. ¿Qué variables usan los modelos?
+R: Datos del producto (categoría, precio, inventario), del entorno (precios de
+la competencia, promoción, epidemia), temporales (mes, estacionalidad) y de
+operación (cuánto se ordenó). Las categorías, la estacionalidad y el clima se
+convirtieron a indicadores para que el modelo las pueda usar.
+
+P7. ¿Cómo se midió la importancia de las variables?
+R: Con el Random Forest se calcula cuánto empeora la predicción si se elimina
+cada variable. Las top: unidades ordenadas (0.20), precio (0.17), precios de la
+competencia (0.14) e inventario (0.13). «Unidades ordenadas» gana porque el
+pedido refleja el ritmo real de la tienda, pero es decisión de operación, no
+venta.
+
+P8. ¿Qué es el one-hot encoding? (si llega a nivel técnico)
+R: Convertir texto (ej. categoría «Groceries») en columnas de 0 y 1. El modelo
+solo entiende números; así puede captar que «alimentación» se comporta distinto
+a «muebles». Esto es lo que vemos en los coeficientes: Groceries suma y
+Furniture resta.
+
+P9. ¿Cómo se define la orden sugerida del simulador?
+R: Demanda esperada más un 10% de margen de seguridad. Si el modelo dice 158,
+se sugiere ordenar ~170. El 10% es un colchón estándar contra el error (±24)
+y los picos de estacionalidad, sin caer en sobreinventario.
+
+P10. ¿Cómo se definieron los colores del semáforo?
+R: En conjunto con la operación, mirando la distribución histórica de demanda:
+verde (hay espacio para empujar) si vende menos de 150; amarillo (preparar
+inventario) de 150 a 250; rojo (asegurar stock) más de 250. No es un número
+caprichoso: es la realidad de los niveles de venta de la cadena.
+
+---------- 2. NEGOCIO Y RESULTADOS ----------
+
+P11. ¿La relación promoción-venta es causalidad o solo correlación?
+R: La gráfica muestra comparaciones controladas: con los mismos datos, sin
+epidemia la promoción sube la venta de 103 a 133 (+30); con epidemia, de 64 a
+83 (+19). La promoción siempre ayuda, pero rinde 40% menos cuando hay epidemia.
+Esa separación sí es evidencia de comportamiento, no solo correlación.
+
+P12. ¿Por qué dicen que los muebles no responden a los descuentos?
+R: Porque en los datos son la categoría que más resta a la venta (coeficiente
+negativo más fuerte: -51.8) y no reaccionan igual que alimentación o ropa a la
+promoción. Descontar muebles agresivamente quema margen y no mueve el volumen;
+mejor priorizar promociones en lo que sí responde.
+
+P13. ¿Por qué es un hallazgo que el precio copie al de la competencia?
+R: Porque la correlación de precios es casi de espejo: significa que el negocio
+reacciona a los demás en lugar de tener estrategia propia. Eso deja el margen a
+merced del mercado. La recomendación es definir reglas de precio por categoría.
+
+P14. ¿Qué son los 8 perfiles de comportamiento?
+R: Agrupamos todos los productos según su patrón de venta (técnica de
+agrupación por similitud). De ahí salieron grupos como «Sobreinventario»
+(productos que ocupan bodega y atascan dinero) y «Máxima demanda» (los más
+rentables). Cada perfil tiene una estrategia de compra y promoción distinta.
+
+P15. ¿Por qué una fase piloto de 2 tiendas?
+R: Para validar con riesgo bajo y medible. Durante un trimestre se comparan dos
+indicadores: cuánto bajó el sobreinventario y qué tan precisas fueron las
+predicciones (contra lo realmente vendido). Si se cumplen, se escala a toda la
+cadena. Es la prueba de que la herramienta funciona con dinero real antes de
+generalizar.
+
+P16. ¿Qué pasa si el modelo se equivoca en producción?
+R: La orden sugerida ya incluye el margen de seguridad (+10%). Y el piloto
+mide los errores mes a mes: si el error se sale del rango esperado (±24), el
+modelo se re-entrena con los nuevos datos. El sistema es de monitoreo continuo,
+no de «configurar y olvidar».
+
+P17. ¿Por qué la epidemia no golpea parejo?
+R: Los datos muestran que 4 de 5 categorías cayeron, pero Clothing creció
+1.25%. Cada categoría tiene clientes y comportamiento distinto. Por eso la
+recomendación es tomar decisiones por categoría y no «en bloque».
+
+---------- 3. CIERRE RÁPIDO PARA PREGUNTAS DIFÍCILES ----------
+
+P18. ¿Qué es lo que más restó al proyecto?
+R: La limpieza y ordenamiento de datos (calidad) y entender qué era trampa
+(leakage). Una vez resuelto, los modelos y el simulador fluyeron.
+
+P19. ¿Si tuvieran un mes más, qué mejorarían?
+R: Alimentar el modelo con más historia por tienda, y probar predicción con
+series de tiempo (el mes pasado influye en el próximo). La herramienta ya está
+diseñada para incorporarlo.
+
+P20. ¿Cuál es el número que resumen todo?
+R: Ordenar ~170 unidades para un producto que vende 158, con promoción
+inteligente (sin epidemia): eso convierte la predicción en una decisión de
+negocio accionable.
+
+TIP FINAL: Nunca inventes un número. Si no lo recuerdas, responde con el
+concepto («±24» es el error promedio) o deriva a la pantalla que lo muestra:
+todos los números están en el dashboard.
