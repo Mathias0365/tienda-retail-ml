@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-delete-this-directory.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (large)
+*.csv
+*.xlsx
+*.xls
+*.parquet
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local

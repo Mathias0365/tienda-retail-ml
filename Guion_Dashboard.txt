@@ -1,0 +1,184 @@
+====================================================
+GUION DEL DASHBOARD (en vivo)
+TIENDA RETAIL: Análisis y Predicción de la Demanda
+Grupo 5 — Proyecto Final
+====================================================
+Versión para exponer: lenguaje de negocio, sin tecnicismos.
+Tiempo total: 10 a 12 minutos + preguntas.
+Estructura: apertura -> 6 pestañas -> cierre.
+
+====================================================
+APERTURA (antes de abrir la app) — 1:30
+====================================================
+Buenas tardes. Somos el equipo del grupo 5 y venimos a presentarles una
+herramienta que ayuda a tomar mejores decisiones todos los días. Hoy la tienda
+pierde ventas y deja dinero sobre la mesa porque no sabe con certeza qué va a
+rotar, qué se va a quedar guardado y cuánto conviene descontar. Lo que hicimos
+es simple de entender: le dimos al sistema todo el historial del negocio —
+5 tiendas y 25 meses de ventas — y el sistema aprendió de esa historia. Ahora,
+en una sola pantalla, el negocio puede ver cómo está hoy, qué anomalías encontró
+en sus datos, y puede simular escenarios: «si pongo esta promoción a este
+precio, ¿cuánto voy a vender?». El recorrido de hoy: primero el estado actual
+del negocio, luego los hallazgos importantes, después la herramienta en vivo y,
+para cerrar, qué hacer con todo esto.
+
+DATO CLAVE: Presentación pensada para una persona de negocio: cero tecnicismos.
+El detalle técnico queda para las preguntas.
+
+IMÁGENES DE ESTA SECCIÓN:
+- assets\dashboard_vista.png  (la herramienta: una sola pantalla con todo)
+
+====================================================
+PESTAÑA 1 · EL CONTEXTO — 1:15
+====================================================
+Esta primera pantalla es el estado de salud del negocio. En números: 76,000
+registros de ventas de 5 tiendas durante 25 meses, una demanda promedio de 104
+unidades por producto, 6.7 millones de unidades vendidas en total y un precio
+promedio 2.5% por debajo del de la competencia. Algo importante: los datos están
+completos y ordenados — no hay casilleros vacíos —, así que podemos confiar en
+lo que nos dicen. Los gráficos muestran qué categoría es la que más mueve el
+negocio y cómo se comporta la demanda en cada región. Y debajo está el ritmo del
+año: la venta no es pareja mes a mes. El pico fue en agosto de 2023, con unas
+120 unidades, y el punto más bajo en febrero del mismo año, con 72. Hay una
+estacionalidad clara, y el surtido debe seguir ese ritmo en lugar de ir siempre
+igual.
+
+DATO CLAVE: Esto cubre el análisis de calidad y el exploratorio del criterio 1.
+Señala la franja de calidad y el gráfico temporal: «la venta tiene picos y
+valles: agosto es el mes fuerte, febrero el flojo».
+
+IMÁGENES DE ESTA PESTAÑA:
+- assets\dash\1_contexto_categorias.png  (qué categoría mueve el negocio)
+- assets\dash\1_contexto_regiones.png    (demanda por región)
+- assets\dash\1_contexto_tiempo.png      (ritmo del año: picos y valles)
+
+====================================================
+PESTAÑA 2 · LOS HALLAZGOS — 1:15
+====================================================
+Los datos nos mostraron tres cosas que conviene revisar. La primera: nuestros
+precios. Casi siempre copiamos el precio de la competencia — nuestros precios se
+mueven casi igual que los de ellos —. O sea, no tenemos estrategia propia de
+precio: copiamos al vecino y el margen se nos va en imitar. La segunda: las
+promociones. En promedio, poner un producto en promoción suma 28 unidades a la
+venta. Pero si hay epidemia, la venta cae 43. La gráfica lo deja clarísimo: sin
+epidemia, la promoción sube la venta de 103 a 133 unidades; con epidemia, apenas
+la sube de 64 a 83. En otras palabras, promocionar en plena epidemia es gastar
+dinero que casi no vuelve. La tercera: la epidemia no golpea a todos por igual.
+Cayeron cuatro de cada cinco categorías, pero Clothing incluso creció un 1.25%.
+Cada categoría se comporta distinto, así que las decisiones hay que tomarlas por
+categoría y no en bloque.
+
+DATO CLAVE: Si preguntan el efecto exacto de la promoción: +30 sin epidemia y
++19 con epidemia, tal como sale en la gráfica.
+
+IMÁGENES DE ESTA PESTAÑA:
+- assets\dash\2_hallazgo_precios.png         (1 · precios sin estrategia propia, r≈0.98)
+- assets\dash\2_hallazgo_promo_epidemia.png  (2 · promoción vs epidemia: 103→133 / 64→83)
+- assets\dash\2_hallazgo_epidemia.png        (3 · epidemia no pareja: Clothing +1.25%)
+
+====================================================
+PESTAÑA 3 · SIMULADOR (IA) — DEMOSTRACIÓN EN VIVO — 1:30
+====================================================
+Esta es la parte que más le sirve al negocio: la consultora. El escenario ya
+está preparado: un producto de Groceries en la región East, a 60 dólares, con
+inventario de 500 unidades y promoción activa. Presiono «predecir» y el sistema
+responde: este producto va a mover unas 158 unidades, un nivel de venta medio, y
+le sugiere ordenar alrededor de 170 unidades para no quedarse sin stock — eso es
+la demanda esperada más un 10% de margen de seguridad. Los niveles son un
+semáforo que definimos con la operación: verde si vende menos de 150 (hay
+espacio para empujar), amarillo de 150 a 250 (preparar el inventario) y rojo si
+vende más de 250 (asegurar stock antes de que se agote). El cliente no necesita
+saber nada de fórmulas: pregunta y la herramienta le dice cuánto ordenar.
+
+DATO CLAVE: No improvises: presiona «Predecir demanda» y lee la pantalla
+(158 uds · MEDIA · orden ≈ 170). El semáforo: menos de 150 verde, 150 a 250
+amarillo, más de 250 rojo.
+
+IMÁGENES DE ESTA PESTAÑA: no hay imagen fija (es interactiva). Referencia:
+- assets\dashboard_vista.png  (vista del dash con el simulador)
+
+====================================================
+PESTAÑA 4 · MODELOS — 1:30
+====================================================
+¿Cómo sabe el sistema lo que va a pasar? No lo adivina: aprende de la historia
+del negocio. Probamos tres maneras de analizarla, y cada una responde una
+pregunta distinta. La primera es la regresión: mira todos los datos y calcula
+cuánto pesa cada factor en la venta — si subo el precio, ¿cuánto caigo?; si
+pongo promoción, ¿cuánto subo? —. Es la que nos dio los hallazgos de los precios
+y las promociones. Las otras dos son clasificadores: en lugar de un número
+exacto, anticipan si la demanda de un producto será alta o baja, y son las que
+alimentan el semáforo de la consultora. Para elegir con honestidad, a las tres
+las probamos con datos que nunca habían visto — como un examen a libro cerrado:
+no se trata de que repitan lo que ya conocen, sino de acertar lo que no han
+visto —. La que mejor respondió acierta casi 85 de cada 100 veces, y es la que
+está dentro de la herramienta: el Random Forest, un método que combina muchos
+árboles de decisión. Es como pedirle la opinión a un comité de especialistas en
+vez de a una sola persona: el error de uno lo compensa el acierto de los demás.
+La elegimos con un criterio simple: que fuera la más confiable en ese examen,
+que se pudiera explicar — no es una caja negra — y que respondiera la pregunta
+que el negocio hace: ¿cuánto voy a vender y cuándo debo preocuparme?
+
+DATO CLAVE: Aquí se cubre el criterio 2 de la rúbrica (evidencia de modelos y
+criterios de selección). En palabras sencillas: «85 de cada 100 aciertos en
+datos no vistos». La elegida es el Random Forest (un comité de muchos árboles)
+y la regresión es la que explica qué pesa más (precio y promoción).
+
+IMÁGENES DE ESTA PESTAÑA:
+- assets\dash\4_modelos_comparacion.png  (opción estándar 76/100 vs reforzada 85/100)
+
+====================================================
+PESTAÑA 5 · DETALLES TÉCNICOS — 1:00
+====================================================
+Esta pantalla responde a la pregunta: ¿cuánto podemos confiar en estos números?
+La predicción explica el 56% de por qué cambia la demanda. Es un resultado
+honesto: el sistema trabajó sin mirar las ventas ya hechas, para no hacerse
+trampa en el examen. Y en promedio, la predicción se equivoca por ±24 unidades:
+para el día a día del surtido es un margen aceptable. El gráfico de puntos lo
+muestra: los puntos se aprietan cerca de la línea roja, que es la predicción
+perfecta. Debajo, qué mueve la venta: las barras verdes la empujan hacia arriba
+— la promoción, la categoría de alimentación y el clima soleado —; las rojas la
+tiran hacia abajo, y las que más restan son los muebles y la epidemia. La última
+gráfica dice qué factor pesa más en total: cuánto pidió la tienda para reponer,
+el precio del producto y el precio de la competencia.
+
+DATO CLAVE: Si preguntan por la variable más importante (cuánto pidió la tienda
+para reponer): es lo que se pidió, no lo vendido; por eso no es trampa. La que
+sí era trampa (las unidades ya vendidas) la quitamos del análisis. Y «los
+muebles son lo que más resta» conecta con la decisión de no descontarlos
+(pestaña 6).
+
+IMÁGENES DE ESTA PESTAÑA:
+- assets\dash\5_validacion.png     (real vs esperado: confiabilidad ±24 uds)
+- assets\dash\5_coeficientes.png   (qué mueve la venta: verdes suman, rojos restan)
+- assets\dash\5_importancia.png    (qué factor pesa más: orden, precio, competencia)
+
+====================================================
+PESTAÑA 6 · CONCLUSIONES Y SIGUIENTES PASOS — 1:15
+====================================================
+Cerramos con lo que el negocio puede hacer ya, en cuatro puntos. Uno: los datos
+están sanos y los precios van en espejo con la competencia — hay que definir una
+estrategia de precio propia. Dos: agrupamos los productos en 8 perfiles de
+comportamiento y encontramos un grupo al que llamamos «Sobreinventario»:
+productos que ocupan bodega y atascan dinero; y otro, «Máxima demanda», que son
+los más rentables. Tres: elegimos la herramienta que mejor predice, para
+anticipar picos y evitar quedarse sin stock. Cuatro: decisiones concretas —
+promocionar cuando no hay epidemia y no gastar descuentos agresivos en muebles,
+porque no responden. El plan: probar la herramienta en 2 tiendas durante un
+trimestre, midiendo cuánto bajó el sobreinventario y qué tan precisas fueron las
+predicciones, antes de llevarla a toda la cadena.
+
+DATO CLAVE: Cierre del criterio 3 (conclusiones + siguientes pasos + herramienta
+visual). Enfócate en la fase piloto: es lo que el cliente quiere oír.
+
+IMÁGENES DE ESTA PESTAÑA (apoyo, no están en la pestaña):
+- assets\clusters.png  (de dónde salen los 8 perfiles: Sobreinventario y Máxima demanda)
+
+====================================================
+CIERRE — 0:30
+====================================================
+Ese es el recorrido: de los datos del negocio a una decisión clara de cuánto
+ordenar, a qué precio y cuándo promocionar. Quedamos a sus órdenes para
+preguntas.
+
+DATO CLAVE: Invita a preguntas sobre la consultora (el simulador): es donde el
+cliente se siente cómodo.
